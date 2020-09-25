@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+require_once( 'setup-functions.php' );
+
+
 /**
  * Add a block category for "Setup" if it doesn't exist already.
  *
@@ -30,7 +33,7 @@ function setup_block_categories_fn( $categories ) {
         $categories,
         array(
             array(
-                'slug' 	=> 'setup',
+                'slug'  => 'setup',
                 'title' => __( 'Setup', 'mydomain' ),
                 'icon'  => null,
             ),
@@ -79,12 +82,12 @@ function setup_video_block_fn() {
 
     $allowed_roles = array( 'administrator' ); // can also be array( 'editor', 'administrator', 'author' );
 
-    if( array_intersect( $allowed_roles, $user->roles ) ) {
+    //if( array_intersect( $allowed_roles, $user->roles ) ) {
 
         foreach( $blocks as $block ) {
             acf_register_block_type( $block );
         }
 
-    }
+    //}
   
 }
