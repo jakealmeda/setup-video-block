@@ -92,6 +92,12 @@ echo '<div class="'.join( ' ', $classes ).'">';
 				// --------------------------------- *
 				if( $toggle == 'youtube' ) {
 
+					/*
+					#########################################################################################
+					# ADD CHECKER IF SETUP-YOUTUBE IS ACTIVATED, ADD CODES TO HANDLE DISPLAY IF MISSING
+					#########################################################################################
+					*/
+
 					echo do_shortcode( '[su_youtube_advanced url="'.$this_video.'"][/su_youtube_advanced]' );
 
 				}
