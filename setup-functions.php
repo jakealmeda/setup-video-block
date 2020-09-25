@@ -37,7 +37,7 @@ function setup_pull_vimeo_video( $id, $size = 'thumbnail_large' ) {
 					<img src="'.setup_get_vimeo_thumb( $id, $size ).'" class="thumbnail" id="vimeo_thumb_'.$id.'" border="0" />
 				</div></div>
 			</div>';
-	https://vimeo.com/206621700
+	//https://vimeo.com/206621700
 	/*$out_thumbnail .= '<strong>Actual VIMEO Video</strong>';
 	$out_thumbnail .= '<div style="padding:75% 0 0 0;position:relative;">
 			<iframe src="https://player.vimeo.com/video/'.$id.'?autoplay=1&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
