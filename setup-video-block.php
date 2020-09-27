@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Setup Video Block
  * Description: Display custom Guttenburg video block via Advanced Custom Fields.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Jake Almeda & Mark Corpuz
  * Author URI: https://smarterwebpackages.com/
  * Network: true
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-require_once( 'setup-functions.php' );
+include 'setup-video-functions.php';
 
 
 /**
@@ -53,8 +53,8 @@ function setup_video_block_fn() {
 
     $blocks = array(
         
-        'guides' => array(
-            'name'                  => 'video',
+        's_videos' => array(
+            'name'                  => 'setup_video',
             'title'                 => __('Video'),
             'render_template'       => plugin_dir_path( __FILE__ ).'custom_blocks/setup_video_template.php',
             'category'              => 'setup',
