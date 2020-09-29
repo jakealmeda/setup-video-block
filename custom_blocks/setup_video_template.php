@@ -61,13 +61,14 @@ echo '<div class="'.join( ' ', $classes ).'">';
 	 *
 	 */
 	$video_thumbnail = get_field( "video_thumbnail" );
-	if( !empty( $video_thumbnail ) ) {
+	$video_thumbnail_size = 'full';
+	/*if( !empty( $video_thumbnail ) ) {
 
 		?><div><strong>Video Thumbnail:</strong> <?php
 			echo wp_get_attachment_image( $video_thumbnail, 'thumbnail' );
 		?></div><?php
 
-	}
+	}*/
 
 
 	/**
@@ -85,7 +86,15 @@ echo '<div class="'.join( ' ', $classes ).'">';
 			// GET THE SELECTED FIELD
 			$this_video = get_field( "video_".$toggle );
 
-			echo '<h2>'.$toggle.'</h2>';
+
+			// Display video
+			$args = array(
+				'type'					=> $toggle,
+				'vid'					=> $this_video,
+				'counter'				=> $box_counter,
+//				'thumb'					=> $video_thumbnail,
+//				'thumb_size'			=> $video_thumbnail_size,
+			);
 				
 			// YOUTUBE
 			// --------------------------------- *
@@ -96,14 +105,8 @@ echo '<div class="'.join( ' ', $classes ).'">';
 
 				// validate vimeo video id
 				if( !empty( $this_video ) ) {
-
-					// Display video
-					$args = array(
-						'type'				=> $toggle,
-						'vid'				=> $this_video,
-						'counter'			=> $box_counter,
-					);
 					
+					// display video
 					echo setup_embed_videos( $args );
 
 				}
@@ -119,19 +122,15 @@ echo '<div class="'.join( ' ', $classes ).'">';
 					if enable and youtube not available, show vimeo
 					if disable, show all
 				*/
-				//echo '<h1>'.$video_default_var.' == enable && '.empty( $video_default_youtube ).'</h1>';
 				if( $video_default_var == 'enable' && empty( $video_default_youtube ) || $video_default_var == 'disable' ) {
 
 					// validate vimeo video id
 					if( !empty( $this_video ) ) {
 						
-						$args = array(
-							'type'				=> $toggle,
-							'vid'				=> $this_video,
-							'counter'			=> $box_counter,
-							'thumb_size'		=> 'thumbnail_large', // ( sizes: thumbnail_small, thumbnail_medium, thumbnail_large )
-						);
+						// add additional variable
+						$args[ 'vimeo_thumb_size' ] = 'thumbnail_large';
 						
+						// display video
 						echo setup_embed_videos( $args );
 
 					}
@@ -178,16 +177,12 @@ echo '<div class="'.join( ' ', $classes ).'">';
 									
 									if( !empty( $v_vid ) ) {
 
-										$args = array(
-											'type'				=> $tog,
-											'vid'				=> $v_vid,
-											'counter'			=> $box_counter,
-										);
-										
+										// display video
 										echo setup_embed_videos( $args );
 
 									}
 
+								}
 
 								// VIMEO
 								if( $tog == 'vimeo' ) {
@@ -195,17 +190,14 @@ echo '<div class="'.join( ' ', $classes ).'">';
 									// validate vimeo video id
 									if( !empty( $v_vid ) ) {
 
-										$args = array(
-											'type'				=> $tog,
-											'vid'				=> $v_vid,
-											'counter'			=> $box_counter,
-											'thumb_size'		=> 'thumbnail_large', // ( sizes: thumbnail_small, thumbnail_medium, thumbnail_large )
-										);
+										// add additional variable
+										$args[ 'vimeo_thumb_size' ] = 'thumbnail_large';
 										
+										// display
 										echo setup_embed_videos( $args );
 
 									}
-								}
+
 								}
 
 							} // foreach( $v_toggle as $tog ) {

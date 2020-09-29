@@ -10,12 +10,24 @@ if ( ! defined( 'ABSPATH' ) ) {
  * OUTPUT: VIMEO Video
  *
  */
-function setup_vimeo_output( $id, $size, $box_counter ) {
+function setup_vimeo_output( $id, $box_counter, $use_this_thumb, $size ) {
 
+	// validate thumbnail
+	if( !empty( $use_this_thumb ) ) {
+
+		$thumbsup = $use_this_thumb;
+
+	} else {
+
+		$thumbsup = setup_get_vimeo_thumb( $id, $size );
+
+	}
+
+	// display
 	return '<div class="module-video-vimeo" id="vimeo___'.$id.'___'.$box_counter.'">
 				<div class="video-image" id="vimeo_image___'.$id.'___'.$box_counter.'"><div class="module-wrap">
 					<div class="video-play" id="vimeo_play___'.$id.'___'.$box_counter.'"></div>
-					<img src="'.setup_get_vimeo_thumb( $id, $size ).'" class="thumbnail" id="vimeo_thumb___'.$id.'___'.$box_counter.'" border="0" />
+					<img src="'.$thumbsup.'" class="thumbnail" id="vimeo_thumb___'.$id.'___'.$box_counter.'" border="0" />
 				</div></div>
 			</div>';
 
@@ -26,12 +38,24 @@ function setup_vimeo_output( $id, $size, $box_counter ) {
  * OUTPUT: YOUTUBE Video
  *
  */
-function setup_youtube_output( $id, $box_counter ) {
+function setup_youtube_output( $id, $box_counter, $use_this_thumb ) {
 
+	// validate thumbnail
+	if( $use_this_thumb ) {
+
+		$thumbsup = $use_this_thumb;
+
+	} else {
+
+		$thumbsup = 'https://img.youtube.com/vi/'.$id.'/0.jpg';
+
+	}
+
+	// display
 	return '<div class="module-video" id="'.$id.'___'.$box_counter.'">
                 <div class="video-image" id="video_image___'.$id.'___'.$box_counter.'"><div class="module-wrap">
                     <div class="video-play" id="video_play___'.$id.'___'.$box_counter.'"></div>
-                    <img src="https://img.youtube.com/vi/'.$id.'/0.jpg" class="thumbnail" id="thumbnail___'.$id.'___'.$box_counter.'" />
+                    <img src="'.$thumbsup.'" class="thumbnail" id="thumbnail___'.$id.'___'.$box_counter.'" />
                 </div></div>
             </div>';
 
@@ -43,6 +67,24 @@ function setup_youtube_output( $id, $box_counter ) {
  *
  */
 function setup_embed_videos( $args ) {
+
+	// set thumbnail
+
+	if( $args[ 'thumb' ] ) {
+
+		if( $args[ 'thumb_size' ] ) {
+			
+			// use specified size
+			$use_this_thumb = wp_get_attachment_image_src( $args[ 'thumb' ], $args[ 'thumb_size' ] );
+
+ 		} else {
+
+ 			// default to full sized thumbnail
+ 			$use_this_thumb = wp_get_attachment_image_src( $args[ 'thumb' ], 'full' );	
+
+		}
+
+	}
 
 	// YOUTUBE
 	if( $args[ 'type' ] == 'youtube' ) {
@@ -61,7 +103,7 @@ function setup_embed_videos( $args ) {
 	       $youtubeid = $vid[ $video_id ];
 	    }
 
-	    return setup_youtube_output( $youtubeid, $args[ 'counter' ] );
+	    return setup_youtube_output( $youtubeid, $args[ 'counter' ], $use_this_thumb[0] );
 
 	}
 
@@ -87,7 +129,7 @@ function setup_embed_videos( $args ) {
 
 		*/
 
-		return setup_vimeo_output( $id, $args[ 'thumb_size' ], $args[ 'counter' ] );
+		return setup_vimeo_output( $id, $args[ 'counter' ], $use_this_thumb, $args[ 'vimeo_thumb_size' ] );
 
 	}
 
