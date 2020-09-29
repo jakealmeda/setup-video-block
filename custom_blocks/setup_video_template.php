@@ -6,6 +6,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
+ * SET GLOBAL COUNTER
+ * THIS WILL BE USED TO MARK EACH VIDEO BLOCK USED
+ *
+ */
+global $box_counter;
+$box_counter++;
+
+
+/**
+ * SET GLOBAL HEIRARCHY
+ * Control the display of videos if only youtube, then vimeo or show all
+ *
+ */
+$video_default_var = get_field( "video_default" );
+
+
+/**
  * CLASS SELECTORS
  * 
  */
@@ -60,24 +77,31 @@ echo '<div class="'.join( ' ', $classes ).'">';
 	$video_toggle = get_field( "video_toggle" );
 	if( is_array( $video_toggle ) ) {
 
+		// Empty the variable
+		$video_default_youtube = "";
+
 		foreach( $video_toggle as $toggle ) {
 			
 			// GET THE SELECTED FIELD
 			$this_video = get_field( "video_".$toggle );
 
 			echo '<h2>'.$toggle.'</h2>';
-
-			// VIMEO
+				
+			// YOUTUBE
 			// --------------------------------- *
-			if( $toggle == 'vimeo' ) {
+			if( $toggle == 'youtube' ) {
+
+				// VARIABLE FOR VIDEO DEFAULT
+				$video_default_youtube = $this_video;
 
 				// validate vimeo video id
 				if( !empty( $this_video ) ) {
-					
+
+					// Display video
 					$args = array(
 						'type'				=> $toggle,
 						'vid'				=> $this_video,
-						'thumb_size'		=> 'thumbnail_large', // ( sizes: thumbnail_small, thumbnail_medium, thumbnail_large )
+						'counter'			=> $box_counter,
 					);
 					
 					echo setup_embed_videos( $args );
@@ -85,20 +109,32 @@ echo '<div class="'.join( ' ', $classes ).'">';
 				}
 
 			}
-				
-			// YOUTUBE
-			// --------------------------------- *
-			if( $toggle == 'youtube' ) {
 
-				// validate vimeo video id
-				if( !empty( $this_video ) ) {
-					
-					$args = array(
-						'type'				=> $toggle,
-						'vid'				=> $this_video,
-					);
-					
-					echo setup_embed_videos( $args );
+			// VIMEO
+			// --------------------------------- *
+			if( $toggle == 'vimeo' ) {
+
+				/*
+					if enable - don't display if youtube is available
+					if enable and youtube not available, show vimeo
+					if disable, show all
+				*/
+				//echo '<h1>'.$video_default_var.' == enable && '.empty( $video_default_youtube ).'</h1>';
+				if( $video_default_var == 'enable' && empty( $video_default_youtube ) || $video_default_var == 'disable' ) {
+
+					// validate vimeo video id
+					if( !empty( $this_video ) ) {
+						
+						$args = array(
+							'type'				=> $toggle,
+							'vid'				=> $this_video,
+							'counter'			=> $box_counter,
+							'thumb_size'		=> 'thumbnail_large', // ( sizes: thumbnail_small, thumbnail_medium, thumbnail_large )
+						);
+						
+						echo setup_embed_videos( $args );
+
+					}
 
 				}
 
@@ -113,7 +149,7 @@ echo '<div class="'.join( ' ', $classes ).'">';
 				if( is_array( $cpt_id ) ) {
 
 					foreach( $cpt_id as $id ) {
-
+						
 						// VIDEO TITLE (custom field)
 						/*$cf_video_title = get_post_meta( $id, "video_title", TRUE );
 						if( !empty( $cf_video_title ) ) {
@@ -130,11 +166,28 @@ echo '<div class="'.join( ' ', $classes ).'">';
 
 						// VIDEO TOGGLE (custom field)
 						$v_toggle = get_post_meta( $id, "video_toggle", TRUE );
+
 						if( is_array( $v_toggle ) ) {
 
 							foreach( $v_toggle as $tog ) {
 								
 								$v_vid = get_post_meta( $id, "video_".$tog, TRUE );
+								
+								// YOUTUBE
+								if( $tog == 'youtube' ) {
+									
+									if( !empty( $v_vid ) ) {
+
+										$args = array(
+											'type'				=> $tog,
+											'vid'				=> $v_vid,
+											'counter'			=> $box_counter,
+										);
+										
+										echo setup_embed_videos( $args );
+
+									}
+
 
 								// VIMEO
 								if( $tog == 'vimeo' ) {
@@ -145,6 +198,7 @@ echo '<div class="'.join( ' ', $classes ).'">';
 										$args = array(
 											'type'				=> $tog,
 											'vid'				=> $v_vid,
+											'counter'			=> $box_counter,
 											'thumb_size'		=> 'thumbnail_large', // ( sizes: thumbnail_small, thumbnail_medium, thumbnail_large )
 										);
 										
@@ -152,21 +206,6 @@ echo '<div class="'.join( ' ', $classes ).'">';
 
 									}
 								}
-								
-								// YOUTUBE
-								if( $tog == 'youtube' ) {
-
-									if( !empty( $v_vid ) ) {
-
-										$args = array(
-											'type'				=> $tog,
-											'vid'				=> $v_vid,
-										);
-										
-										echo setup_embed_videos( $args );
-
-									}
-
 								}
 
 							} // foreach( $v_toggle as $tog ) {
@@ -182,123 +221,6 @@ echo '<div class="'.join( ' ', $classes ).'">';
 		} // end of foreach( $video_toggle as $toggle ) {
 
 	}
-
-	/*if( is_array( $video_toggle ) ) {
-
-		foreach( $video_toggle as $toggle ) {
-
-			// GET THE SELECTED FIELD
-			$this_video = get_field( "video_".$toggle );
-
-			// VALIDATE VIDEO FIELD
-			if( !empty( $this_video ) ) {
-
-				// Show the field (comment the line below if not needed)
-				//echo '<h2>'.strtoupper( $toggle ).'</h2>';
-
-				// VIMEO
-				// --------------------------------- *
-				if( $toggle == 'vimeo' ) {
-					
-					// validate vimeo video id
-					if( !empty( $this_video ) ) {
-						
-						$args = array(
-							'type'				=> $toggle,
-							'vid'				=> $this_video,
-							'thumb_size'		=> 'thumbnail_large', // ( sizes: thumbnail_small, thumbnail_medium, thumbnail_large )
-						);
-						
-						echo setup_embed_videos( $args );
-
-					}
-
-				}
-				
-				// YOUTUBE
-				// --------------------------------- *
-				if( $toggle == 'youtube' ) {
-
-					// validate vimeo video id
-					if( !empty( $this_video ) ) {
-
-						$args = array(
-							'type'				=> $toggle,
-							'vid'				=> $this_video,
-						}
-
-						echo setup_embed_videos( $args );
-
-					}
-
-				}
-
-				// VIDEO CPT (CONNECT)
-				// --------------------------------- *
-				if( $toggle == 'connect' ) {
-
-					$cpt_id = $this_video; // this is an array
-					
-					if( is_array( $cpt_id ) ) {
-
-						foreach( $cpt_id as $id ) {
-							
-							// VIDEO TITLE (custom field)
-							$cf_video_title = get_post_meta( $id, "video_title", TRUE );
-							if( !empty( $cf_video_title ) ) {
-
-								// SHOW ALT TITLE
-								echo '<h3>'.$cf_video_title.'</h3>';
-
-							} else {
-
-								// SHOW WP NATIVE TITLE
-								echo '<h3>'.get_the_title( $id ).'</h3>';
-
-							}
-
-							// VIDEO TOGGLE (custom field)
-							$v_toggle = get_post_meta( $id, "video_toggle", TRUE );
-							if( is_array( $v_toggle ) ) {
-
-								foreach( $v_toggle as $tog ) {
-									
-									$v_vid = get_post_meta( $id, "video_".$tog, TRUE );
-
-									// VIMEO
-									if( $tog == 'vimeo' ) {
-										
-										// validate vimeo video id
-										if( !empty( $v_vid ) ) {
-
-											echo '<strong>VIMEO Thumbnail</strong>';
-											echo setup_pull_vimeo_video( $v_vid );
-
-										}
-									}
-									
-									// YOUTUBE
-									if( $tog == 'youtube' ) {
-										//echo '<h1>'.$tog.'</h1>';
-										echo do_shortcode( '[su_youtube_advanced url="'.$v_vid.'"][/su_youtube_advanced]' );
-
-									}
-
-								}
-
-							}
-
-						} // foreach( $cpt_id as $id ) {
-
-					} // if( is_array( $cpt_id ) ) {
-
-				}
-
-			} // if( !empty( $this_video ) ) {
-
-		} // foreach( $video_toggle as $toggle ) {
-
-	} */
 
 
 	/**

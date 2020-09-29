@@ -10,12 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * OUTPUT: VIMEO Video
  *
  */
-function setup_vimeo_output( $id, $size ) {
+function setup_vimeo_output( $id, $size, $box_counter ) {
 
-	return '<div class="module-video-vimeo" id="vimeo_'.$id.'">
-				<div class="video-image" id="vimeo_image_'.$id.'"><div class="module-wrap">
-					<div class="video-play" id="vimeo_play_'.$id.'"></div>
-					<img src="'.setup_get_vimeo_thumb( $id, $size ).'" class="thumbnail" id="vimeo_thumb_'.$id.'" border="0" />
+	return '<div class="module-video-vimeo" id="vimeo___'.$id.'___'.$box_counter.'">
+				<div class="video-image" id="vimeo_image___'.$id.'___'.$box_counter.'"><div class="module-wrap">
+					<div class="video-play" id="vimeo_play___'.$id.'___'.$box_counter.'"></div>
+					<img src="'.setup_get_vimeo_thumb( $id, $size ).'" class="thumbnail" id="vimeo_thumb___'.$id.'___'.$box_counter.'" border="0" />
 				</div></div>
 			</div>';
 
@@ -26,12 +26,12 @@ function setup_vimeo_output( $id, $size ) {
  * OUTPUT: YOUTUBE Video
  *
  */
-function setup_youtube_output( $youtubeid ) {
+function setup_youtube_output( $id, $box_counter ) {
 
-	return '<div class="module-video" id="'.$youtubeid.'">
-                <div class="video-image" id="video_image_'.$youtubeid.'"><div class="module-wrap">
-                    <div class="video-play" id="video_play_'.$youtubeid.'"></div>
-                    <img src="https://img.youtube.com/vi/'.$youtubeid.'/0.jpg" class="thumbnail" id="thumbnail_'.$youtubeid.'" />
+	return '<div class="module-video" id="'.$id.'___'.$box_counter.'">
+                <div class="video-image" id="video_image___'.$id.'___'.$box_counter.'"><div class="module-wrap">
+                    <div class="video-play" id="video_play___'.$id.'___'.$box_counter.'"></div>
+                    <img src="https://img.youtube.com/vi/'.$id.'/0.jpg" class="thumbnail" id="thumbnail___'.$id.'___'.$box_counter.'" />
                 </div></div>
             </div>';
 
@@ -43,6 +43,27 @@ function setup_youtube_output( $youtubeid ) {
  *
  */
 function setup_embed_videos( $args ) {
+
+	// YOUTUBE
+	if( $args[ 'type' ] == 'youtube' ) {
+
+	    $vid = explode( "/", $args[ 'vid' ] );
+	    $video_id = count( $vid ) - 1;
+
+	    // validate URL used
+	    // we want to catch the video id even if writer uses the like similar to this: https://www.youtube.com/watch?v=zDujFhvgUzI
+		$exp_vid = explode( "?v=", $vid[ $video_id ] );
+	    if( count( $exp_vid ) > 1 ) {
+	       // not using the embed URL
+	       $youtubeid = $exp_vid[ count( $exp_vid ) - 1 ];
+	    } else {
+	       // using the embed URL
+	       $youtubeid = $vid[ $video_id ];
+	    }
+
+	    return setup_youtube_output( $youtubeid, $args[ 'counter' ] );
+
+	}
 
 	// VIMEO
 	if( $args[ 'type' ] == 'vimeo' ) {
@@ -66,28 +87,7 @@ function setup_embed_videos( $args ) {
 
 		*/
 
-		return setup_vimeo_output( $id, $args[ 'thumb_size' ] );
-
-	}
-
-	// YOUTUBE
-	if( $args[ 'type' ] == 'youtube' ) {
-
-	    $vid = explode( "/", $args[ 'vid' ] );
-	    $video_id = count( $vid ) - 1;
-
-	    // validate URL used
-	    // we want to catch the video id even if writer uses the like similar to this: https://www.youtube.com/watch?v=zDujFhvgUzI
-		$exp_vid = explode( "?v=", $vid[ $video_id ] );
-	    if( count( $exp_vid ) > 1 ) {
-	       // not using the embed URL
-	       $youtubeid = $exp_vid[ count( $exp_vid ) - 1 ];
-	    } else {
-	       // using the embed URL
-	       $youtubeid = $vid[ $video_id ];
-	    }
-	    
-	    return setup_youtube_output( $youtubeid );
+		return setup_vimeo_output( $id, $args[ 'thumb_size' ], $args[ 'counter' ] );
 
 	}
 
@@ -181,10 +181,11 @@ function setup_vimeo_video_fn() {
  * EXECUTE
  *
  */
-if ( !is_admin() ) {
+//if ( !is_admin() ) {
 
-	// ENQUEUE SCRIPTS
-    //add_action( 'wp_enqueue_scripts', 'setup_vimeo_video_fn' );
+    // ENQUEUE SCRIPTS
+    //add_action( 'wp_enqueue_scripts', 'setup_vimeo_video_fn' ); 
     add_action( 'wp_footer', 'setup_vimeo_video_fn', 5 );
+    //add_action( 'admin_enqueue_scripts', 'setup_vimeo_video_fn' );
 
-}
+//}
