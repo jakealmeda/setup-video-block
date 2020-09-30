@@ -42,7 +42,7 @@
 		$( '#video_play___' + VideoID + '___' + box_counter ).on( 'click', function() {
 			
 		    // hide play button and thumbnail div
-		    HideThisDiv( '#video_image___' + VideoID + '___' + box_counter );
+		    HideThisDiv( VideoID, box_counter );
 		    
 		    // append YOUTUBE video
 		    if( ThisType == 'youtube' ) {
@@ -62,7 +62,7 @@
 		$( '#video_image___' + VideoID + '___' + box_counter ).on( 'click', function() {
 		    
 		    // hide play button and thumbnail div
-		    HideThisDiv( '#video_image___' + VideoID + '___' + box_counter );
+		    HideThisDiv( VideoID, box_counter );
 
 		    // append YOUTUBE video
 		    if( ThisType == 'youtube' ) {
@@ -121,7 +121,8 @@
 	// Hide Element
 	function HideThisDiv( ThisElement ) {
 
-	    $( ThisElement ).hide();
+	    $( '#video_image___' + VideoID + '___' + box_counter ).hide();
+	    $( '#video_play___' + VideoID + '___'.$box_counter.'' ).hide();
 
 	}
 
