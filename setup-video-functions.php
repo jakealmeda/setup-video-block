@@ -24,11 +24,10 @@ function setup_vimeo_output( $id, $box_counter, $use_this_thumb, $size ) {
 	}
 
 	// display
-	return '<div class="module-video-vimeo" id="vimeo___'.$id.'___'.$box_counter.'">
-				<div class="video-image" id="vimeo_image___'.$id.'___'.$box_counter.'"><div class="module-wrap">
+	return '<div class="module video video-block-vimeo" id="vimeo___'.$id.'___'.$box_counter.'">
+				<div class="video-image" id="vimeo_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;">
 					<div class="video-play" id="vimeo_play___'.$id.'___'.$box_counter.'"></div>
-					<img src="'.$thumbsup.'" class="thumbnail" id="vimeo_thumb___'.$id.'___'.$box_counter.'" border="0" />
-				</div></div>
+				</div>
 			</div>';
 
 }
@@ -52,11 +51,10 @@ function setup_youtube_output( $id, $box_counter, $use_this_thumb ) {
 	}
 
 	// display
-	return '<div class="module-video" id="'.$id.'___'.$box_counter.'">
-                <div class="video-image" id="video_image___'.$id.'___'.$box_counter.'"><div class="module-wrap">
+	return '<div class="module video video-block-youtube" id="'.$id.'___'.$box_counter.'">
+                <div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;">
                     <div class="video-play" id="video_play___'.$id.'___'.$box_counter.'"></div>
-                    <img src="'.$thumbsup.'" class="thumbnail" id="thumbnail___'.$id.'___'.$box_counter.'" />
-                </div></div>
+                </div>
             </div>';
 
 }
