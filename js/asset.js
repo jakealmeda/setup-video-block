@@ -5,7 +5,7 @@
 	function VIMEO_AppendVideo( ThisType, VideoID, box_counter ) {
 	    
 	    $( 'div#videoblock__' + ThisType + '___' + VideoID + '___' + box_counter )
-	        .append( '<div class="video-iframe" style="position:relative;padding-bottom: 56.25%;height:0;">' +
+	        .append( '<div class="video-iframe" style="position:relative;padding-bottom: 56.25%;height:0;background-color:#333;">' +
 	        			'<iframe src="https://player.vimeo.com/video/' + VideoID + '?autoplay=1&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>' +
 	                 '</div><script src="https://player.vimeo.com/api/player.js"></script>' );
 	    
@@ -16,7 +16,7 @@
 	function YOUTUBE_AppendVideo( ThisType, VideoID, box_counter ) {
 		
 	    $( 'div#videoblock__' + ThisType + '___' + VideoID + '___' + box_counter )
-	        .append( '<div class="video-iframe" style="position:relative;padding-bottom: 56.25%;height:0;">' +
+	        .append( '<div class="video-iframe" style="position:relative;padding-bottom: 56.25%;height:0;background-color:#333;">' +
 	                    '<iframe width="420" height="315" id="video_iframe" src="https://www.youtube.com/embed/' + VideoID + '?autoplay=1" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allowfullscreen></iframe>' +
 	                 '</div>' );
 
