@@ -119,10 +119,10 @@
 	*/
 
 	// Hide Element
-	function HideThisDiv( ThisElement ) {
+	function HideThisDiv( VideoID, box_counter ) {
 
 	    $( '#video_image___' + VideoID + '___' + box_counter ).hide();
-	    $( '#video_play___' + VideoID + '___'.$box_counter.'' ).hide();
+	    $( '#video_play___' + VideoID + '___' + box_counter ).hide();
 
 	}
 
