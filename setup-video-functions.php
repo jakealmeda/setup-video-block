@@ -43,7 +43,9 @@ function setup_video_output_fn( $args ) {
 
 	// display
 	echo '<div class="module video video-block" id="videoblock__'.$args[ 'type' ].'___'.$id.'___'.$box_counter.'">
-				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="position:relative;background-image:'.$thumbsup.';background-size:cover;background-color:red;padding-bottom:56.25%;height:0;"></div>
+				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="position:relative;background-image:'.$thumbsup.';background-size:cover;background-color:red;padding-bottom:56.25%;height:0;">
+					<div class="video-play" style="position:absolute;width:100px;height:100px;background-color:green;">PLAY</div>
+				</div>
 		</div>';
 }
 
