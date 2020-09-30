@@ -7,10 +7,57 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
+ * OUTPUT: YOUTUBE AND VIMEO VIDEOS
+ *
+ */
+function setup_video_output_fn( $args ) {
+
+	$id = $args[ 'video_id' ];
+	$box_counter = $args[ 'counter' ];
+
+	// validate thumbnail
+	if( !empty( $args[ 'thumbs' ] ) ) {
+
+		$thumbsup = $args[ 'thumbs' ];
+
+	} else {
+
+		// get youtube thumbnail
+		if( $args[ 'type' ] == 'youtube' ) {
+
+			$thumbsup = 'https://img.youtube.com/vi/'.$id.'/0.jpg';
+
+		}
+
+		// get vimeo thumbnail
+		if( $args[ 'type' ] == 'vimeo' ) {
+
+		    $data = file_get_contents("https://vimeo.com/api/v2/video/".$id.".json");
+		    $data = json_decode($data);
+		    $thumbsup = $data[0]->$args[ 'vimeo_thumb_size' ];
+			//$thumbsup = setup_get_vimeo_thumb( $id, $size );
+
+		}
+
+	}
+
+	// display
+	echo '<div class="module video video-block" id="videoblock__'.$args[ 'type' ].'___'.$id.'___'.$box_counter.'">
+				<div class="video-play" id="video_play___'.$id.'___'.$box_counter.'"></div>
+				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;">
+					<p>A PLACEHOLDER FOR THE VIDEO THUMBNAIL</p>
+					<p>A PLACEHOLDER FOR THE VIDEO THUMBNAIL</p>
+					<p>A PLACEHOLDER FOR THE VIDEO THUMBNAIL</p>
+				</div>
+			</div>';
+}
+
+
+/**
  * OUTPUT: VIMEO Video
  *
  */
-function setup_vimeo_output( $id, $box_counter, $use_this_thumb, $size ) {
+/*function setup_vimeo_output( $id, $box_counter, $use_this_thumb, $size ) {
 
 	// validate thumbnail
 	if( !empty( $use_this_thumb ) ) {
@@ -24,20 +71,20 @@ function setup_vimeo_output( $id, $box_counter, $use_this_thumb, $size ) {
 	}
 
 	// display
-	return '<div class="module video video-block-vimeo" id="vimeo___'.$id.'___'.$box_counter.'">
+	return '<div class="module video video-block-vimeo" id="videoblock__vimeo___'.$id.'___'.$box_counter.'">
 				<div class="video-image" id="vimeo_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;">
 					<div class="video-play" id="vimeo_play___'.$id.'___'.$box_counter.'"></div>
 				</div>
 			</div>';
 
-}
+}*/
 
 
 /**
  * OUTPUT: YOUTUBE Video
  *
  */
-function setup_youtube_output( $id, $box_counter, $use_this_thumb ) {
+/*function setup_youtube_output( $id, $box_counter, $use_this_thumb ) {
 
 	// validate thumbnail
 	if( $use_this_thumb ) {
@@ -51,13 +98,13 @@ function setup_youtube_output( $id, $box_counter, $use_this_thumb ) {
 	}
 
 	// display
-	return '<div class="module video video-block-youtube" id="'.$id.'___'.$box_counter.'">
+	return '<div class="module video video-block-youtube" id="videoblock__youtube___'.$id.'___'.$box_counter.'">
                 <div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;">
                     <div class="video-play" id="video_play___'.$id.'___'.$box_counter.'"></div>
                 </div>
             </div>';
 
-}
+}*/
 
 
 /**
@@ -101,7 +148,15 @@ function setup_embed_videos( $args ) {
 	       $youtubeid = $vid[ $video_id ];
 	    }
 
-	    return setup_youtube_output( $youtubeid, $args[ 'counter' ], $use_this_thumb[0] );
+	    $atts = array(
+	    	'type'					=> $args[ 'type' ],
+	    	'video_id'				=> $youtubeid,
+	    	'counter'				=> $args[ 'counter' ],
+	    	'thumbs'				=> $use_this_thumb[0],
+	    );
+	    
+	    return setup_video_output_fn( $atts );
+	    //return setup_youtube_output( $youtubeid, $args[ 'counter' ], $use_this_thumb[0] );
 
 	}
 
@@ -127,23 +182,18 @@ function setup_embed_videos( $args ) {
 
 		*/
 
-		return setup_vimeo_output( $id, $args[ 'counter' ], $use_this_thumb, $args[ 'vimeo_thumb_size' ] );
+		$atts = array(
+			'type'					=> $args[ 'type' ],
+	    	'video_id'				=> $id,
+	    	'counter'				=> $args[ 'counter' ],
+	    	'thumbs'				=> $use_this_thumb[0],
+	    	'vimeo_thumb_size'		=> $args[ 'vimeo_thumb_size' ],	
+	    );
+
+	    return setup_video_output_fn( $atts );
+		//return setup_vimeo_output( $id, $args[ 'counter' ], $use_this_thumb, $args[ 'vimeo_thumb_size' ] );
 
 	}
-
-}
-
-
-/**
- * Gets a vimeo thumbnail url
- * @param mixed $id A vimeo id (ie. 1185346)
- * @return thumbnail's url
-*/
-function setup_get_vimeo_thumb( $id, $size ) {
-
-    $data = file_get_contents("https://vimeo.com/api/v2/video/".$id.".json");
-    $data = json_decode($data);
-    return $data[0]->$size;
 
 }
 
