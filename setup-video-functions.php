@@ -42,12 +42,9 @@ function setup_video_output_fn( $args ) {
 	}
 
 	// display
-	echo '<div class="module video video-block" id="videoblock__'.$args[ 'type' ].'___'.$id.'___'.$box_counter.'">
-				<div class="video-play" id="video_play___'.$id.'___'.$box_counter.'"></div>
-				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;">
-					<p>A PLACEHOLDER FOR THE VIDEO THUMBNAIL</p>
-					<p>A PLACEHOLDER FOR THE VIDEO THUMBNAIL</p>
-					<p>A PLACEHOLDER FOR THE VIDEO THUMBNAIL</p>
+	echo '<div class="module video video-block" id="videoblock__'.$args[ 'type' ].'___'.$id.'___'.$box_counter.'" style="border:5px solid black;">
+				<div class="video-play" id="video_play___'.$id.'___'.$box_counter.'" style="background-color:yellow;border:5px solid orange;">PLAY</div>
+				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;background-color:red;padding:50px;border:5px solid green;">
 				</div>
 			</div>';
 }
