@@ -39,7 +39,7 @@
 		/* ------------------------
 		 * | PLAY BUTTON
 		 * --------------------- */
-		$( '#video_play___' + VideoID + '___' + box_counter ).on( 'click', function() {
+		/*$( '#video_play___' + VideoID + '___' + box_counter ).on( 'click', function() {
 			
 		    // hide play button and thumbnail div
 		    HideThisDiv( VideoID, box_counter );
@@ -54,7 +54,7 @@
 		    	VIMEO_AppendVideo( ThisType, VideoID, box_counter );
 		    }
 
-		});
+		});*/
 
 		/* ------------------------
 		 * | THUMBNAIL

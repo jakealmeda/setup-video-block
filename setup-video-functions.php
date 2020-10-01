@@ -14,6 +14,7 @@ function setup_video_output_fn( $args ) {
 
 	$id = $args[ 'video_id' ];
 	$box_counter = $args[ 'counter' ];
+	$t_size = $args[ 'vimeo_thumb_size' ];
 
 	// validate thumbnail
 	if( !empty( $args[ 'thumbs' ] ) ) {
@@ -21,7 +22,7 @@ function setup_video_output_fn( $args ) {
 		$thumbsup = $args[ 'thumbs' ];
 
 	} else {
-
+		
 		// get youtube thumbnail
 		if( $args[ 'type' ] == 'youtube' ) {
 
@@ -32,10 +33,11 @@ function setup_video_output_fn( $args ) {
 		// get vimeo thumbnail
 		if( $args[ 'type' ] == 'vimeo' ) {
 
-		    $data = file_get_contents("https://vimeo.com/api/v2/video/".$id.".json");
+		    $data = file_get_contents( "https://vimeo.com/api/v2/video/".$id.".json" );
 		    $data = json_decode($data);
-		    $thumbsup = $data[0]->$args[ 'vimeo_thumb_size' ];
-			//$thumbsup = setup_get_vimeo_thumb( $id, $size );
+		    
+		    //$thumbsup = $data[0]->$args[ 'vimeo_thumb_size' ];
+		    $thumbsup = $data[0]->$t_size;
 
 		}
 
@@ -43,65 +45,11 @@ function setup_video_output_fn( $args ) {
 
 	// display
 	echo '<div class="module video video-block" id="videoblock__'.$args[ 'type' ].'___'.$id.'___'.$box_counter.'">
-				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="position:relative;background-image:'.$thumbsup.';background-size:cover;background-color:red;padding-bottom:56.25%;height:0;">
+				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="position:relative;background-image: url('.$thumbsup.');background-size:cover;background-color:red;padding-bottom:56.25%;height:0;">
 					<div class="video-play" style="position:absolute;width:100px;height:100px;background-color:green;">PLAY</div>
 				</div>
 		</div>';
 }
-
-
-/**
- * OUTPUT: VIMEO Video
- *
- */
-/*function setup_vimeo_output( $id, $box_counter, $use_this_thumb, $size ) {
-
-	// validate thumbnail
-	if( !empty( $use_this_thumb ) ) {
-
-		$thumbsup = $use_this_thumb;
-
-	} else {
-
-		$thumbsup = setup_get_vimeo_thumb( $id, $size );
-
-	}
-
-	// display
-	return '<div class="module video video-block-vimeo" id="videoblock__vimeo___'.$id.'___'.$box_counter.'">
-				<div class="video-image" id="vimeo_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;">
-					<div class="video-play" id="vimeo_play___'.$id.'___'.$box_counter.'"></div>
-				</div>
-			</div>';
-
-}*/
-
-
-/**
- * OUTPUT: YOUTUBE Video
- *
- */
-/*function setup_youtube_output( $id, $box_counter, $use_this_thumb ) {
-
-	// validate thumbnail
-	if( $use_this_thumb ) {
-
-		$thumbsup = $use_this_thumb;
-
-	} else {
-
-		$thumbsup = 'https://img.youtube.com/vi/'.$id.'/0.jpg';
-
-	}
-
-	// display
-	return '<div class="module video video-block-youtube" id="videoblock__youtube___'.$id.'___'.$box_counter.'">
-                <div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="background-image:'.$thumbsup.';background-size:cover;">
-                    <div class="video-play" id="video_play___'.$id.'___'.$box_counter.'"></div>
-                </div>
-            </div>';
-
-}*/
 
 
 /**
@@ -111,7 +59,6 @@ function setup_video_output_fn( $args ) {
 function setup_embed_videos( $args ) {
 
 	// set thumbnail
-
 	if( $args[ 'thumb' ] ) {
 
 		if( $args[ 'thumb_size' ] ) {
@@ -153,7 +100,6 @@ function setup_embed_videos( $args ) {
 	    );
 	    
 	    return setup_video_output_fn( $atts );
-	    //return setup_youtube_output( $youtubeid, $args[ 'counter' ], $use_this_thumb[0] );
 
 	}
 
@@ -163,21 +109,6 @@ function setup_embed_videos( $args ) {
 		// filter the Vimeo ID
 		$exp_vimeo_id = explode( '/', $args[ 'vid' ] );
 		$id = $exp_vimeo_id[ count( $exp_vimeo_id ) - 1 ];
-		/*
-
-			CHECK IF ACTUAL THUMBNAIL IS AVAILABLE (IN VIMEO SERVERS)
-			IF TRUE
-				USE VIDEO THUMBNAIL (ACF CUSTOM FIELD)
-			ELSEIF
-				USE VIMEO/YOUTUBE THUMBNAIL
-			ELSEIF
-				USE GLOBAL THUMBNAIL
-			ELSEIF
-				SHOW VIDEO 
-			ELSE
-				DISPLAY ERROR MESSAGE THAT VIDEO IS NOT AVAILABLE
-
-		*/
 
 		$atts = array(
 			'type'					=> $args[ 'type' ],
@@ -188,7 +119,6 @@ function setup_embed_videos( $args ) {
 	    );
 
 	    return setup_video_output_fn( $atts );
-		//return setup_vimeo_output( $id, $args[ 'counter' ], $use_this_thumb, $args[ 'vimeo_thumb_size' ] );
 
 	}
 
@@ -247,6 +177,7 @@ function setup_disable_acf_video_field_fn( $fields, $parent ) {
  * ENQUEUE SCRIPTS
  * 
  */
+add_action( 'wp_footer', 'setup_vimeo_video_fn', 5 );
 function setup_vimeo_video_fn() {
     
     // last arg is true - will be placed before </body>
@@ -262,17 +193,3 @@ function setup_vimeo_video_fn() {
     wp_enqueue_script( 'setup_vimeo_video_scripts' );
 
 }
-
-
-/**
- * EXECUTE
- *
- */
-//if ( !is_admin() ) {
-
-    // ENQUEUE SCRIPTS
-    //add_action( 'wp_enqueue_scripts', 'setup_vimeo_video_fn' ); 
-    add_action( 'wp_footer', 'setup_vimeo_video_fn', 5 );
-    //add_action( 'admin_enqueue_scripts', 'setup_vimeo_video_fn' );
-
-//}

@@ -62,13 +62,6 @@ echo '<div class="'.join( ' ', $classes ).'">';
 	 */
 	$video_thumbnail = get_field( "video_thumbnail" );
 	$video_thumbnail_size = 'full';
-	/*if( !empty( $video_thumbnail ) ) {
-
-		?><div><strong>Video Thumbnail:</strong> <?php
-			echo wp_get_attachment_image( $video_thumbnail, 'thumbnail' );
-		?></div><?php
-
-	}*/
 
 
 	/**
@@ -92,8 +85,8 @@ echo '<div class="'.join( ' ', $classes ).'">';
 				'type'					=> $toggle,
 				'vid'					=> $this_video,
 				'counter'				=> $box_counter,
-//				'thumb'					=> $video_thumbnail,
-//				'thumb_size'			=> $video_thumbnail_size,
+				'thumb'					=> $video_thumbnail,
+				'thumb_size'			=> $video_thumbnail_size,
 			);
 				
 			// YOUTUBE
