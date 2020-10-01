@@ -184,7 +184,7 @@ function setup_vimeo_video_fn() {
     wp_register_script( 'setup_vimeo_video_scripts', plugins_url( 'js/asset.js', __FILE__ ), NULL, '1.0', TRUE );
 
     // enqueue styles
-    wp_enqueue_style( 'setup_video_block_style', plugins_url( 'css/setup-video-block-style.css', __FILE__ ) );
+    wp_enqueue_style( 'setup_video_block_style', plugins_url( 'assets/css/setup-video-block-style.css', __FILE__ ) );
      
     // Localize the script with new data
     /*$translation_array = array(
