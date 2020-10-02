@@ -1,8 +1,8 @@
 /* SETUP-VIDEO-BLOCK | 1.0.2 | 201001 | setup-video-block/assets/scss/setup-video-block-style.scss
 ---------------------------------------------------------------------------------------------------- */
-/* SETUP-VIDEO-BLOCK | 1.0.2 | 200929 | setup-be/block-custom/setup-video-block-106/video.scss
+/* SETUP-VIDEO-BLOCK | 1.0.2 | 201001 | setup-be/block-custom/setup-video-block-102/video.scss
 ---------------------------------------------------------------------------------------------------- */
-.video-block .video-play {
+.video-block .video-button {
   position: absolute;
   background-image: url(../images/youtube_social_icon_red.png);
   background-position: center;

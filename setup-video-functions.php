@@ -46,7 +46,7 @@ function setup_video_output_fn( $args ) {
 	// display
 	echo '<div class="module video video-block" id="videoblock__'.$args[ 'type' ].'___'.$id.'___'.$box_counter.'">
 				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="background-image: url('.$thumbsup.');background-size:cover;background-position:center;">
-					<div class="video-play">PLAY</div>
+					<div class="video-button"></div>
 				</div>
 		</div>';
 }
