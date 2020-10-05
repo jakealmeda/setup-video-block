@@ -45,8 +45,8 @@ function setup_video_output_fn( $args ) {
 
 	// display
 	echo '<div class="module video video-block" id="videoblock__'.$args[ 'type' ].'___'.$id.'___'.$box_counter.'">
-				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="position:relative;background-image: url('.$thumbsup.');background-size:cover;background-color:red;padding-bottom:56.25%;height:0;">
-					<div class="video-play" style="position:absolute;width:100px;height:100px;background-color:green;">PLAY</div>
+				<div class="video-image" id="video_image___'.$id.'___'.$box_counter.'" style="background-image: url('.$thumbsup.');background-size:cover;background-position:center;">
+					<div class="video-button"></div>
 				</div>
 		</div>';
 }
@@ -182,6 +182,9 @@ function setup_vimeo_video_fn() {
     
     // last arg is true - will be placed before </body>
     wp_register_script( 'setup_vimeo_video_scripts', plugins_url( 'js/asset.js', __FILE__ ), NULL, '1.0', TRUE );
+
+    // enqueue styles
+    wp_enqueue_style( 'setup_video_block_style', plugins_url( 'assets/css/setup-video-block-style.css', __FILE__ ) );
      
     // Localize the script with new data
     /*$translation_array = array(

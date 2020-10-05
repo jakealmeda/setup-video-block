@@ -49,7 +49,7 @@ echo '<div class="'.join( ' ', $classes ).'">';
 	$video_title = get_field( "video_title" );
 	if( !empty( $video_title ) ) {
 
-		?><div><strong>Video (Alt) Title:</strong> <?php
+		?><div><?php
 			echo $video_title;
 		?></div><?php
 
@@ -61,7 +61,7 @@ echo '<div class="'.join( ' ', $classes ).'">';
 	 *
 	 */
 	$video_thumbnail = get_field( "video_thumbnail" );
-	$video_thumbnail_size = 'full';
+	$video_thumbnail_size = 'large';
 
 
 	/**
@@ -237,7 +237,7 @@ echo '<div class="'.join( ' ', $classes ).'">';
 	$video_summary = get_field( "video_summary" );
 	if( !empty( $video_summary ) ) {
 
-		?><div><strong>Video Summary:</strong> <?php
+		?><div><?php
 			echo $video_summary;
 		?></div><?php
 
