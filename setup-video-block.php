@@ -30,14 +30,14 @@ function setup_block_categories_fn( $categories ) {
     $category_slugs = wp_list_pluck( $categories, 'slug' );
 
     return in_array( 'setup', $category_slugs, true ) ? $categories : array_merge(
-        $categories,
         array(
             array(
                 'slug'  => 'setup',
                 'title' => __( 'Setup', 'mydomain' ),
                 'icon'  => null,
             ),
-        )
+        ),
+        $categories
     );
 
 }
