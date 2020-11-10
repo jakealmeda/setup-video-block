@@ -181,7 +181,7 @@ add_action( 'wp_footer', 'setup_vimeo_video_fn', 5 );
 function setup_vimeo_video_fn() {
     
     // last arg is true - will be placed before </body>
-    wp_register_script( 'setup_vimeo_video_scripts', plugins_url( 'js/asset.js', __FILE__ ), NULL, '1.0', TRUE );
+    wp_register_script( 'setup_vimeo_video_scripts', plugins_url( 'js/asset-min.js', __FILE__ ), NULL, '1.0', TRUE );
 
     // enqueue styles
     wp_enqueue_style( 'setup_video_block_style', plugins_url( 'assets/css/setup-video-block-style.css', __FILE__ ) );
