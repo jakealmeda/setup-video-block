@@ -61,6 +61,11 @@ echo '<div class="'.join( ' ', $classes ).'">';
 	 *
 	 */
 	$video_thumbnail = get_field( "video_thumbnail" );
+	if( !empty( $video_thumbnail ) ) {
+		$video_thumbnail = $video_thumbnail;
+	} else {
+		$video_thumbnail = NULL;
+	}
 	$video_thumbnail_size = 'large';
 
 

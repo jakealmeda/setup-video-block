@@ -14,7 +14,12 @@ function setup_video_output_fn( $args ) {
 
 	$id = $args[ 'video_id' ];
 	$box_counter = $args[ 'counter' ];
-	$t_size = $args[ 'vimeo_thumb_size' ];
+	// validate array content
+	if( array_key_exists( 'vimeo_thumb_size', $args ) ) {
+		$t_size = $args[ 'vimeo_thumb_size' ];
+	} else {
+		$t_size = NULL;
+	}//$t_size = $args[ 'vimeo_thumb_size' ];
 
 	// validate thumbnail
 	if( !empty( $args[ 'thumbs' ] ) ) {
@@ -59,7 +64,7 @@ function setup_video_output_fn( $args ) {
 function setup_embed_videos( $args ) {
 
 	// set thumbnail
-	if( $args[ 'thumb' ] ) {
+	if( array_key_exists( 'thumb', $args ) && !empty( $args[ 'thumb' ] ) ) {
 
 		if( $args[ 'thumb_size' ] ) {
 			
@@ -73,6 +78,10 @@ function setup_embed_videos( $args ) {
 
 		}
 
+		$use_this_thumb = $use_this_thumb[0];
+
+	} else {
+		$use_this_thumb = '';
 	}
 
 	// YOUTUBE
@@ -96,7 +105,7 @@ function setup_embed_videos( $args ) {
 	    	'type'					=> $args[ 'type' ],
 	    	'video_id'				=> $youtubeid,
 	    	'counter'				=> $args[ 'counter' ],
-	    	'thumbs'				=> $use_this_thumb[0],
+	    	'thumbs'				=> $use_this_thumb,
 	    );
 	    
 	    return setup_video_output_fn( $atts );
@@ -110,12 +119,19 @@ function setup_embed_videos( $args ) {
 		$exp_vimeo_id = explode( '/', $args[ 'vid' ] );
 		$id = $exp_vimeo_id[ count( $exp_vimeo_id ) - 1 ];
 
+		// validate array content
+		if( array_key_exists( 'vimeo_thumb_size', $args ) ) {
+			$vts = $args[ 'vimeo_thumb_size' ];
+		} else {
+			$vts = NULL;
+		}
+
 		$atts = array(
 			'type'					=> $args[ 'type' ],
 	    	'video_id'				=> $id,
 	    	'counter'				=> $args[ 'counter' ],
 	    	'thumbs'				=> $use_this_thumb[0],
-	    	'vimeo_thumb_size'		=> $args[ 'vimeo_thumb_size' ],	
+	    	'vimeo_thumb_size'		=> $vts,
 	    );
 
 	    return setup_video_output_fn( $atts );
