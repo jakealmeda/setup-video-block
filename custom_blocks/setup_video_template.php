@@ -146,20 +146,6 @@ echo '<div class="'.join( ' ', $classes ).'">';
 				if( is_array( $cpt_id ) ) {
 
 					foreach( $cpt_id as $id ) {
-						
-						// VIDEO TITLE (custom field)
-						/*$cf_video_title = get_post_meta( $id, "video_title", TRUE );
-						if( !empty( $cf_video_title ) ) {
-
-							// SHOW ALT TITLE
-							echo '<h3>'.$cf_video_title.'</h3>';
-
-						} else {
-
-							// SHOW WP NATIVE TITLE
-							echo '<h3>'.get_the_title( $id ).'</h3>';
-
-						}*/
 
 						// VIDEO TOGGLE (custom field)
 						$v_toggle = get_post_meta( $id, "video_toggle", TRUE );
@@ -205,6 +191,15 @@ echo '<div class="'.join( ' ', $classes ).'">';
 					} // foreach( $cpt_id as $id ) {
 
 				} // if( is_array( $cpt_id ) ) {
+
+			}
+
+			if( $toggle == 'rumble' ) {
+
+				// output rumble video right away. no thumbnail first for it.
+				?><div class="video-iframe" style="position:relative;padding-bottom: 56.25%;height:0;background-color:#333;"><?php
+					echo '<iframe class="rumble" width="640" height="360" src="'.$this_video.'" frameborder="0" allowfullscreen></iframe>';
+				?></div><?php
 
 			}
 
