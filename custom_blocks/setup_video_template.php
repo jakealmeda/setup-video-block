@@ -198,7 +198,7 @@ echo '<div class="'.join( ' ', $classes ).'">';
 
 				// output rumble video right away. no thumbnail first for it.
 				?><div class="video-iframe" style="position:relative;padding-bottom: 56.25%;height:0;background-color:#333;"><?php
-					echo '<iframe class="rumble" width="640" height="360" src="'.$this_video.'" frameborder="0" allowfullscreen></iframe>';
+					echo '<iframe class="rumble" width="670" height="377" src="'.$this_video.'" frameborder="0" allowfullscreen></iframe>';
 				?></div><?php
 
 			}
