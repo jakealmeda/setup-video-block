@@ -193,7 +193,7 @@ echo '<div class="'.join( ' ', $classes ).'">';
 				} // if( is_array( $cpt_id ) ) {
 
 			}
-
+			
 			if( $toggle == 'rumble' ) {
 
 				// output rumble video right away. no thumbnail first for it.
@@ -204,6 +204,18 @@ echo '<div class="'.join( ' ', $classes ).'">';
 			}
 
 		} // end of foreach( $video_toggle as $toggle ) {
+
+	}
+
+
+	/**
+	 * CUSTOM FIELD | RUMBLE LINK
+	 *
+	 */
+	$rbl_link = get_field( "rumble_link" );
+	if( !empty( $rbl_link ) ) {
+
+		echo '<div class="video-rumble-link"><a href="'.$rbl_link.'">'.$rbl_link.'</a></div>';
 
 	}
 
